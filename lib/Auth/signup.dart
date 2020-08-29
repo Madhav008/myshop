@@ -33,9 +33,7 @@ class _SignupScreenState extends State<SignupScreen> {
         child: ListView(
           children: <Widget>[
             CustomLogo(),
-            SizedBox(
-              height: 10  
-            ),
+            SizedBox(height: 10),
             CustomTextField(
               controller: nameController,
               icon: Icons.perm_identity,
@@ -74,7 +72,9 @@ class _SignupScreenState extends State<SignupScreen> {
                 builder: (context) => FlatButton(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
-                  onPressed: ()  {},
+                  onPressed: () {
+                    signUp();
+                  },
                   color: Colors.black38,
                   child: Text(
                     'SignUp',
@@ -109,16 +109,12 @@ class _SignupScreenState extends State<SignupScreen> {
                 )
               ],
             ),
-            Row(
-              children: [
-
-              ],
-            )
           ],
         ),
       ),
     );
   }
+
   void signUp() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
