@@ -32,7 +32,7 @@ class _SignupScreenState extends State<SignupScreen> {
           children: <Widget>[
             CustomLogo(),
             SizedBox(
-              height: height * .1,
+              height: 10  
             ),
             CustomTextField(
               controller: nameController,
@@ -72,8 +72,8 @@ class _SignupScreenState extends State<SignupScreen> {
                 builder: (context) => FlatButton(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
-                  onPressed: () async {},
-                  color: Colors.black,
+                  onPressed: ()  {},
+                  color: Colors.black38,
                   child: Text(
                     'SignUp',
                     style: TextStyle(color: Colors.white),
@@ -109,7 +109,7 @@ class _SignupScreenState extends State<SignupScreen> {
             ),
             Row(
               children: [
-                
+
               ],
             )
           ],

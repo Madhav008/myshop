@@ -55,8 +55,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 builder: (context) => FlatButton(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
-                  onPressed: () => null,
-                  color: Colors.black,
+                  onPressed: () {
+                    if (_formKey.currentState.validate()) {
+                      var email = emailController.text;
+                      var pass = passwordController.text;
+                    }
+                  },
+                  color: Colors.black26,
                   child: Text(
                     'Login',
                     style: TextStyle(color: Colors.white),
@@ -105,10 +110,42 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: GestureDetector(
                     onTap: null,
                     child: Container(
-                      height: 80,
-                      width: 70,
+                      height: 60.0,
+                      width: 60.0,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
+                        shape: BoxShape.circle,
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            offset: Offset(0, 2),
+                            blurRadius: 6.0,
+                          ),
+                        ],
+                        image: DecorationImage(
+                          image: AssetImage('images/icons/google.jpg'),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GestureDetector(
+                    onTap: null,
+                    child: Container(
+                      height: 60.0,
+                      width: 60.0,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            offset: Offset(0, 2),
+                            blurRadius: 6.0,
+                          ),
+                        ],
                         image: DecorationImage(
                           image: AssetImage('images/icons/facebook.jpg'),
                         ),
@@ -116,23 +153,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ),
-
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GestureDetector(
-                    onTap: null,
-                    child: Container(
-                      height: 80,
-                      width: 70,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        image: DecorationImage(
-                          image: AssetImage('images/icons/google.jpg'),
-                        ),
-                      ),
-                    ),
-                  ),
-                )
               ],
             )
           ],
