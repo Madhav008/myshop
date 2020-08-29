@@ -100,13 +100,36 @@ class _LoginScreenState extends State<LoginScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  height: 80,
-                  width: 70,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100),
-                    image: DecorationImage(
-                      image: AssetImage('images/icons/facebook.jpg'),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GestureDetector(
+                    onTap: null,
+                    child: Container(
+                      height: 80,
+                      width: 70,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        image: DecorationImage(
+                          image: AssetImage('images/icons/facebook.jpg'),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GestureDetector(
+                    onTap: null,
+                    child: Container(
+                      height: 80,
+                      width: 70,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        image: DecorationImage(
+                          image: AssetImage('images/icons/google.jpg'),
+                        ),
+                      ),
                     ),
                   ),
                 )
