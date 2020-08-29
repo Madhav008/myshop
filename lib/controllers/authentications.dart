@@ -117,7 +117,6 @@ Future<FirebaseUser> signUp(
 
 Future<bool> signOutUser() async {
   FirebaseUser user = await auth.currentUser();
-  print(user.providerData[1].providerId);
   if (user.providerData[1].providerId == 'google.com') {
     await gooleSignIn.disconnect();
   }
