@@ -1,12 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:myshop/Auth/signup.dart';
-
-import '../screen/home.dart';
+import 'package:flutter_auths/pages/signup.dart';
+import '../controllers/authentications.dart';
 import '../widgets/constants.dart';
 import '../widgets/custom_textfield.dart';
 import '../widgets/cutsom_logo.dart';
+import 'tasks.dart';
 
 class LoginScreen extends StatefulWidget {
   static String id = 'LoginScreen';
@@ -25,9 +24,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    
-      final Future<FirebaseApp> _initialization = Firebase.initializeApp();
-
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: kMainColor,
@@ -61,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 builder: (context) => FlatButton(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
-                  onPressed: signIn,
+                  onPressed: login,
                   color: Colors.black26,
                   child: Text(
                     'Login',
@@ -109,7 +105,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
-                    onTap: null,
+                    onTap: () {
+                      googleSignIn().whenComplete(() async {
+                        FirebaseUser user =
+                            await FirebaseAuth.instance.currentUser();
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (context) => TasksPage(uid: user.uid)));
+                      });
+                    },
                     child: Container(
                       height: 60.0,
                       width: 60.0,
@@ -162,24 +165,19 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void signIn() async {
+  void login() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      try {
-        print(emailController.text);
-        print(passwordController.text);
-        UserCredential userCredential = await FirebaseAuth.instance
-            .signInWithEmailAndPassword(
-                email: emailController.text, password: passwordController.text);
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Home()));
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'user-not-found') {
-          print('No user found for that email.');
-        } else if (e.code == 'wrong-password') {
-          print('Wrong password provided for that user.');
+      signin(emailController.text, passwordController.text, context)
+          .then((value) {
+        if (value != null) {
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => TasksPage(uid: value.uid),
+              ));
         }
-      }
+      });
     }
   }
 }
