@@ -7,6 +7,7 @@ class CustomTextField extends StatelessWidget {
   final IconData icon;
   final TextEditingController controller;
 
+  // ignore: missing_return
   String _errorMessage(String str) {
     switch (hint) {
       case 'Enter your name':
@@ -26,6 +27,7 @@ class CustomTextField extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 30),
       child: TextFormField(
         controller: controller,
+        // ignore: missing_return
         validator: (value) {
           if (value.isEmpty) {
             return _errorMessage(hint);
