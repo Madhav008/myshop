@@ -72,8 +72,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 builder: (context) => FlatButton(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
-                  onPressed: () async {
-                  },
+                  onPressed: () async {},
                   color: Colors.black,
                   child: Text(
                     'SignUp',
@@ -106,6 +105,11 @@ class _SignupScreenState extends State<SignupScreen> {
                     style: TextStyle(fontSize: 16),
                   ),
                 )
+              ],
+            ),
+            Row(
+              children: [
+                
               ],
             )
           ],

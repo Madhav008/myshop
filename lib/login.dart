@@ -55,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 builder: (context) => FlatButton(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
-                  onPressed: () async {},
+                  onPressed: () => null,
                   color: Colors.black,
                   child: Text(
                     'Login',
@@ -97,6 +97,21 @@ class _LoginScreenState extends State<LoginScreen> {
                 )
               ],
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  height: 80,
+                  width: 70,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100),
+                    image: DecorationImage(
+                      image: AssetImage('images/icons/facebook.jpg'),
+                    ),
+                  ),
+                )
+              ],
+            )
           ],
         ),
       ),
