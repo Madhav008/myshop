@@ -28,6 +28,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.3
   shared_preferences: ^0.5.10
+  firebase_auth: ^0.18.0+1
 
 dev_dependencies:
   flutter_test:
@@ -46,9 +47,6 @@ flutter:
     - images/icons/buyicon.png
     - images/icons/facebook.jpg
     - images/icons/google.jpg
-
-
-
   # fonts:
   #   - family: Schyler
   #     fonts:

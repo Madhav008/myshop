@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:myshop/screen/home.dart';
 import 'package:myshop/signup.dart';
 
 import 'widgets/constants.dart';
@@ -16,7 +18,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-
+  
   String message = '';
   final _formKey = GlobalKey<FormState>();
 
@@ -45,6 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
               controller: passwordController,
               hint: 'Enter your password',
               icon: Icons.lock,
+              
             ),
             SizedBox(
               height: height * .05,
@@ -55,12 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 builder: (context) => FlatButton(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
-                  onPressed: () {
-                    if (_formKey.currentState.validate()) {
-                      var email = emailController.text;
-                      var pass = passwordController.text;
-                    }
-                  },
+                  onPressed: signIn,
                   color: Colors.black26,
                   child: Text(
                     'Login',
@@ -159,5 +157,18 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+ void signIn() async {
+    if(_formKey.currentState.validate()){
+      _formKey.currentState.save();
+      try{
+        UserCredential user = (await FirebaseAuth.instance.signInWithEmailAndPassword(email: emailController.text, password: passwordController.text));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Home(user: user.toString())));
+
+      }catch(e){
+        print(e.message);
+      }
+    }
   }
 }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:myshop/login.dart';
 
-void main() {
+void main() async{
+
   runApp(MyApp());
 }
 
