@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_auths/pages/signup.dart';
+import 'package:myshop/pages/signup.dart';
 import '../controllers/authentications.dart';
 import '../widgets/constants.dart';
 import '../widgets/custom_textfield.dart';

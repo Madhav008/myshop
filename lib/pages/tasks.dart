@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_auths/controllers/authentications.dart';
-import 'package:flutter_auths/main.dart';
+import 'package:myshop/controllers/authentications.dart';
+
+import '../main.dart';
 
 class TasksPage extends StatefulWidget {
   final String uid;

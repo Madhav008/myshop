@@ -1,8 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import 'Auth/login.dart';
-import 'pages/tasks.dart';
+import 'package:myshop/pages/login.dart';
+import 'package:myshop/pages/tasks.dart';
 
 void main() {
   runApp(MyApp());
