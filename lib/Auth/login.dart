@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:myshop/signup.dart';
+import 'package:myshop/Auth/signup.dart';
 
-import 'screen/home.dart';
-import 'widgets/constants.dart';
-import 'widgets/custom_textfield.dart';
-import 'widgets/cutsom_logo.dart';
+import '../screen/home.dart';
+import '../widgets/constants.dart';
+import '../widgets/custom_textfield.dart';
+import '../widgets/cutsom_logo.dart';
 
 class LoginScreen extends StatefulWidget {
   static String id = 'LoginScreen';
@@ -170,7 +170,7 @@ class _LoginScreenState extends State<LoginScreen> {
         print(passwordController.text);
         UserCredential userCredential = await FirebaseAuth.instance
             .signInWithEmailAndPassword(
-                email: "test@test.com", password: "test123");
+                email: emailController.text, password: passwordController.text);
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => Home()));
       } on FirebaseAuthException catch (e) {
