@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'constants.dart';
-import 'custom_textfield.dart';
-import 'cutsom_logo.dart';
+import 'widgets/constants.dart';
+import 'widgets/custom_textfield.dart';
+import 'widgets/cutsom_logo.dart';
 
 class SignupScreen extends StatefulWidget {
   @override

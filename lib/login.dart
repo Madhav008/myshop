@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:myshop/signup.dart';
 
-import 'constants.dart';
-import 'custom_textfield.dart';
-import 'cutsom_logo.dart';
+import 'widgets/constants.dart';
+import 'widgets/custom_textfield.dart';
+import 'widgets/cutsom_logo.dart';
 
 class LoginScreen extends StatefulWidget {
   static String id = 'LoginScreen';
