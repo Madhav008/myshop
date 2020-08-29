@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:myshop/screen/home.dart';
 import '../widgets/constants.dart';
 import '../widgets/custom_textfield.dart';
 import '../widgets/cutsom_logo.dart';
@@ -116,5 +118,25 @@ class _SignupScreenState extends State<SignupScreen> {
         ),
       ),
     );
+  }
+  void signUp() async {
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
+      try {
+        print(emailController.text);
+        print(passwordController.text);
+        UserCredential userCredential = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(
+                email: emailController.text, password: passwordController.text);
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Home()));
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'user-not-found') {
+          print('No user found for that email.');
+        } else if (e.code == 'wrong-password') {
+          print('Wrong password provided for that user.');
+        }
+      }
+    }
   }
 }
