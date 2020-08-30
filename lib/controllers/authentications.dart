@@ -8,7 +8,13 @@ class AuthService with ChangeNotifier {
   FirebaseAuth auth = FirebaseAuth.instance;
   final gooleSignIn = GoogleSignIn();
 
+  Future updateProfile(
+      String name, String email, String phoneNumber, String imgUrl) async {
+    FirebaseUser user = await auth.currentUser();
 
+    await DatabaseServices(uid: user.uid)
+        .updateUserData(imgUrl, email, name, phoneNumber, false);
+  }
 
   showErrDialog(BuildContext context, String err) {
     FocusScope.of(context).requestFocus(new FocusNode());
@@ -62,6 +68,10 @@ class AuthService with ChangeNotifier {
           await auth.signInWithEmailAndPassword(email: email, password: email);
       FirebaseUser user = result.user;
       // return Future.value(true);
+
+      await DatabaseServices(uid: user.uid).updateUserData(
+          user.photoUrl, user.email, user.displayName, user.phoneNumber, false);
+      print(user.photoUrl);
       return Future.value(user);
     } catch (e) {
       // simply passing error code as a message

@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:myshop/controllers/authentications.dart';
 import 'package:myshop/main.dart';
-import 'package:provider/provider.dart';
+import 'package:myshop/pages/admin.dart';
+import 'package:myshop/pages/profile.dart';
+import 'package:myshop/pages/tasks.dart';
 
 // ignore: must_be_immutable
 class CustomDrawer extends StatelessWidget {
@@ -24,43 +25,59 @@ class CustomDrawer extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: Colors.blue[300],
                   ),
-                  accountEmail: Text(
-                    snapshot.data['email'],
-                    style: TextStyle(
-                      color: Colors.black,
-                    ),
-                  ),
-                  accountName: Text(
-                    snapshot.data['name'],
-                    style: TextStyle(
-                      color: Colors.black,
-                    ),
-                  ),
+                  accountEmail: (snapshot.data['email'] == null)
+                      ? Text("madhavj211@gmail.com")
+                      : Text(
+                          snapshot.data['email'],
+                          style: TextStyle(color: Colors.black),
+                        ),
+                  accountName: (snapshot.data['name'] == null)
+                      ? Text(
+                          'No data',
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
+                        )
+                      : Text(
+                          snapshot.data['name'],
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
                   currentAccountPicture: ClipRRect(
                     borderRadius: BorderRadius.circular(70),
-                    child: Image(
-                      image: NetworkImage(
-                         snapshot.data['image']),
-                      width: 70,
-                      height: 70,
-                      fit: BoxFit.cover,
-                    ),
+                    child: (snapshot.data['image'] != null)
+                        ? Image(
+                            image: NetworkImage(snapshot.data['image']),
+                            width: 70,
+                            height: 70,
+                            fit: BoxFit.cover,
+                          )
+                        : Container(),
                   ),
                 ),
                 SizedBox(height: 10),
                 ListTile(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TasksPage(uid: uid),
+                        ));
+                  },
                   title: Text("Home"),
                   leading: Icon(EvaIcons.homeOutline),
                 ),
                 SizedBox(height: 10),
                 ListTile(
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen(),)),
                   title: Text("Account"),
                   leading: Icon(EvaIcons.personOutline),
                 ),
                 SizedBox(height: 10),
                 ListTile(
-                  title: Text("Electronics"),
+                  title: Text("Add Product"),
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AdminScreen(),)),
                   leading: Icon(EvaIcons.bulbOutline),
                 ),
                 SizedBox(height: 10),
