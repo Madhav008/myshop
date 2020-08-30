@@ -70,7 +70,7 @@ class CustomDrawer extends StatelessWidget {
                 ),
                 SizedBox(height: 10),
                 ListTile(
-                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen(),)),
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage(),)),
                   title: Text("Account"),
                   leading: Icon(EvaIcons.personOutline),
                 ),
