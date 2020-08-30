@@ -118,13 +118,14 @@ class _SignupScreenState extends State<SignupScreen> {
   void handleSignup() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      signUp(emailController.text, passwordController.text, context)
+      AuthService().signUp(emailController.text, passwordController.text, nameController.text,phoneController.text,context)
           .then((value) {
         if (value != null) {
+          
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => TasksPage(uid: value.uid),
+                builder: (context) => TasksPage(uid: value.uid,),
               ));
         }
       });

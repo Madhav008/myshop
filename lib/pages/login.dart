@@ -106,12 +106,19 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
                     onTap: () {
-                      googleSignIn().whenComplete(() async {
-                        FirebaseUser user =
-                            await FirebaseAuth.instance.currentUser();
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) => TasksPage(uid: user.uid)));
-                      });
+                      AuthService().googleSignIn().whenComplete(
+                        () async {
+                          FirebaseUser user =
+                              await FirebaseAuth.instance.currentUser();
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                              builder: (context) => TasksPage(
+                                uid: user.uid,
+                              ),
+                            ),
+                          );
+                        },
+                      );
                     },
                     child: Container(
                       height: 60.0,
@@ -144,7 +151,8 @@ class _LoginScreenState extends State<LoginScreen> {
   void login() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      signin(emailController.text, passwordController.text, context)
+      AuthService()
+          .signin(emailController.text, passwordController.text, context)
           .then((value) {
         if (value != null) {
           Navigator.pushReplacement(
