@@ -50,6 +50,8 @@ class ProductGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+        Provider.of<Products>(context).fetchAndSetProducts();
+
     var products = Provider.of<Products>(context).items;
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -62,9 +64,7 @@ class ProductGrid extends StatelessWidget {
       scrollDirection: Axis.vertical,
       itemCount: products.length,
       itemBuilder: (context, index) {
-        final product = products[index];
-        print(products[index].id);
-        return ChangeNotifierProvider.value(child: ProductCard(), value: product,);
+        return ChangeNotifierProvider.value(value: products[index],child: ProductCard(),);
       },
     );
   }
@@ -74,8 +74,7 @@ class ProductCard extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    var productData= Provider.of<Product>(context);
-    print(productData);
+    final productData = Provider.of<Product>(context, listen: false);
     return Card(
       elevation: 4.0,
       child: Container(

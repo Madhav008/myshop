@@ -14,6 +14,8 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   File _image;
+  var imgUrl;
+
   final phoneController = TextEditingController();
 
   final nameController = TextEditingController();
@@ -26,7 +28,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
       setState(() {
         _image = image;
-        print('Image Path $_image');
       });
     }
 
@@ -40,6 +41,8 @@ class _ProfilePageState extends State<ProfilePage> {
         print("Profile Picture uploaded");
         Scaffold.of(context)
             .showSnackBar(SnackBar(content: Text('Profile Picture Uploaded')));
+        imgUrl = firebaseStorageRef.getDownloadURL();
+        print(imgUrl);
       });
     }
 
@@ -92,8 +95,8 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             ),
             SizedBox(
-                    height:10,
-                  ),
+              height: 10,
+            ),
             Form(
               key: _formKey,
               child: Column(
@@ -120,7 +123,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     icon: EvaIcons.person,
                   ),
                   SizedBox(
-                    height:12,
+                    height: 12,
                   ),
                 ],
               ),
@@ -143,7 +146,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 RaisedButton(
                   color: Color(0xff476cfb),
                   onPressed: () {
-                    
                     uploadPic(context);
                     updateProfile();
                   },
@@ -163,7 +165,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void updateProfile() async {
-    AuthService().updateProfile(
-        nameController.text, phoneController.text, _image.toString());
+    AuthService()
+        .updateProfile(nameController.text, phoneController.text, imgUrl);
   }
 }
