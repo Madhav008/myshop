@@ -11,6 +11,7 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
+  bool _isLoading = false;
   final emailController = TextEditingController();
 
   final passwordController = TextEditingController();
@@ -66,7 +67,7 @@ class _SignupScreenState extends State<SignupScreen> {
             SizedBox(
               height: height * .03,
             ),
-            Padding(
+            (_isLoading==false)?Padding(
               padding: const EdgeInsets.symmetric(horizontal: 120),
               child: Builder(
                 builder: (context) => FlatButton(
@@ -82,7 +83,14 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                 ),
               ),
-            ),
+            ):Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                        child: Container(
+                            child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                    ))),
+                  ),
             Center(
                 child: Text(
               message,
@@ -118,14 +126,23 @@ class _SignupScreenState extends State<SignupScreen> {
   void handleSignup() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      AuthService().signUp(emailController.text, passwordController.text, nameController.text,phoneController.text,context)
+      setState(() {
+        _isLoading = true;
+      });
+      AuthService()
+          .signUp(emailController.text, passwordController.text,
+              nameController.text, phoneController.text, context)
           .then((value) {
         if (value != null) {
-          
+          setState(() {
+            _isLoading = false;
+          });
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => TasksPage(uid: value.uid,),
+                builder: (context) => TasksPage(
+                  uid: value.uid,
+                ),
               ));
         }
       });

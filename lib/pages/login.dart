@@ -10,7 +10,6 @@ import 'tasks.dart';
 class LoginScreen extends StatefulWidget {
   static String id = 'LoginScreen';
   final GlobalKey<FormState> globalKey = GlobalKey<FormState>();
-
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -18,6 +17,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  bool isLoading = false;
 
   String message = '';
   final _formKey = GlobalKey<FormState>();
@@ -51,21 +51,30 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(
               height: height * .05,
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 120),
-              child: Builder(
-                builder: (context) => FlatButton(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
-                  onPressed: login,
-                  color: Colors.black26,
-                  child: Text(
-                    'Login',
-                    style: TextStyle(color: Colors.white),
+            (isLoading == false)
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 120),
+                    child: Builder(
+                      builder: (context) => FlatButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        onPressed: login,
+                        color: Colors.black26,
+                        child: Text(
+                          'Login',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                        child: Container(
+                            child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                    ))),
                   ),
-                ),
-              ),
-            ),
             SizedBox(
               height: height * .01,
             ),
@@ -106,10 +115,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
                     onTap: () {
+                      setState(() {
+                        isLoading = true;
+                      });
                       AuthService().googleSignIn().whenComplete(
                         () async {
                           FirebaseUser user =
                               await FirebaseAuth.instance.currentUser();
+                              
+                          isLoading = false;
                           Navigator.of(context).pushReplacement(
                             MaterialPageRoute(
                               builder: (context) => TasksPage(
@@ -151,10 +165,16 @@ class _LoginScreenState extends State<LoginScreen> {
   void login() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
+      setState(() {
+        isLoading = true;
+      });
       AuthService()
           .signin(emailController.text, passwordController.text, context)
           .then((value) {
         if (value != null) {
+          setState(() {
+            isLoading = false;
+          });
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(

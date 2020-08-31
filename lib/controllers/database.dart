@@ -12,7 +12,14 @@ class DatabaseServices {
   Future updateUserData(
    String imgUrl,   String email, String name, String phone, bool admin) async {
     return await users.document(uid).setData(
-        {'image': imgUrl,'email': email, 'name': name, 'phone': phone, 'admin': admin});
+        {
+          'image': imgUrl,
+        'email': email, 
+        'name': name, 
+        'phone': phone, 
+        'admin': admin
+        }
+      );
   }
 
   Stream<QuerySnapshot> get user {

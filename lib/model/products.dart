@@ -6,12 +6,9 @@ import 'package:http/http.dart' as http;
 import './product.dart';
 
 class Products with ChangeNotifier {
-  List<Product> _items = [
-  ];
-  // var _showFavoritesOnly = false;
+  List<Product> _items = [];
 
   List<Product> get items {
- 
     return [..._items];
   }
 
