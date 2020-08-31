@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -31,21 +34,6 @@ class _ProfilePageState extends State<ProfilePage> {
       });
     }
 
-    Future uploadPic(BuildContext context) async {
-      String fileName = basename(_image.path);
-      StorageReference firebaseStorageRef =
-          FirebaseStorage.instance.ref().child(fileName);
-      StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
-      StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
-      setState(() {
-        print("Profile Picture uploaded");
-        Scaffold.of(context)
-            .showSnackBar(SnackBar(content: Text('Profile Picture Uploaded')));
-        imgUrl = firebaseStorageRef.getDownloadURL();
-        print(imgUrl);
-      });
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Edit Profile'),
@@ -72,10 +60,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 _image,
                                 fit: BoxFit.fill,
                               )
-                            : Image.network(
-                                "https://images.unsplash.com/photo-1502164980785-f8aa41d53611?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-                                fit: BoxFit.fill,
-                              ),
+                            : Container()
                       ),
                     ),
                   ),
@@ -147,7 +132,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   color: Color(0xff476cfb),
                   onPressed: () {
                     uploadPic(context);
-                    updateProfile();
                   },
                   elevation: 4.0,
                   splashColor: Colors.blueGrey,
@@ -164,8 +148,42 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  void updateProfile() async {
-    AuthService()
-        .updateProfile(nameController.text, phoneController.text, imgUrl);
+  Future uploadPic(BuildContext context) async {
+    try {
+      // Make random image name.
+      int randomNumber = Random().nextInt(100000);
+      String imageLocation = 'images/image${randomNumber}.jpg';
+
+      // Upload image to firebase.
+      final StorageReference storageReference =
+          FirebaseStorage().ref().child(imageLocation);
+      final StorageUploadTask uploadTask = storageReference.putFile(_image);
+      await uploadTask.onComplete;
+      _addPathToDatabase(imageLocation);
+    } catch (e) {
+      print(e.message);
+    }
+  }
+
+  Future<void> _addPathToDatabase(String text) async {
+    try {
+      // Get image URL from firebase
+      final ref = FirebaseStorage().ref().child(text);
+      var imageString = await ref.getDownloadURL();
+
+      updateProfile(imageString);
+      // Add location and url to database
+    } catch (e) {
+      print(e.message);
+      showDialog(builder: (context) {
+        return AlertDialog(
+          content: Text(e.message),
+        );
+      });
+    }
+  }
+
+  void updateProfile(String url) async {
+    AuthService().updateProfile(nameController.text, phoneController.text, url);
   }
 }

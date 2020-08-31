@@ -56,9 +56,9 @@ class ProductGrid extends StatelessWidget {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        childAspectRatio: (1 / 1.25),
+        childAspectRatio: (75 / 100),
         mainAxisSpacing: 2,
-        crossAxisSpacing: 1,
+        crossAxisSpacing: 2,
       ),
       shrinkWrap: true,
       scrollDirection: Axis.vertical,
@@ -78,52 +78,54 @@ class ProductCard extends StatelessWidget {
     return Card(
       elevation: 4.0,
       child: Container(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+      SizedBox(
+        height: 8.0,
+      ),
+      Padding(
+        padding: const EdgeInsets.all(8.0),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            SizedBox(
-              height: 8.0,
+            Container(
+              child: Image.network(
+                productData.imageUrl,
+                fit: BoxFit.fill,
+              ),
+              height: 150,
+              width: MediaQuery.of(context).size.width / 2.2,
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Container(
-                    child: Image.network(
-                      productData.imageUrl,
-                      fit: BoxFit.fill,
-                    ),
-                    height: 150,
-                    width: MediaQuery.of(context).size.width / 2.2,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Center(
-                      child: Text(
-                        productData.title?? 'Loading...',
-                        style: TextStyle(
-                            fontSize: 20.0, color: Colors.black),
-                      ),
-                    ),
-                  ),
-                  Center(
-                    child: Text(
-                      '\₹' + productData.price.toString() ?? '',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20.0,
-                          color: Colors.yellow),
-                    ),
-                  )
-                ],
+              child: Center(
+                child: Text(
+                  
+                  productData.title?? 'Loading...',
+                  style: TextStyle(
+                    
+                      fontSize: 20.0, color: Colors.black),
+                ),
+              ),
+            ),
+            Center(
+              child: Text(
+                '\₹' + productData.price.toString() ?? '',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.0,
+                    color: Colors.yellow),
               ),
             )
           ],
         ),
-      ),
+      )
+            ],
+          ),
+        ),
     );
   }
 }
